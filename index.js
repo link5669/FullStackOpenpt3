@@ -1,8 +1,12 @@
 var morgan = require('morgan')
 const express = require('express')
-morgan('tiny')
+var finalhandler = require('finalhandler')
 const app = express()
 app.use(express.json())
+morgan.token('body', function (req, res) { return JSON.stringify(req.body) })
+let logger = morgan(':method :url :status :res[content-length] :body - :response-time ms')
+app.use(logger)
+// morgan(':method :url :url :url :status :res[content-length] - :response-time ms')
 
 app.get('/', (request, response) => {
     response.send('<h1>Hello World! Persons at <a href="/api/persons">this</a> link</h1>')
@@ -27,6 +31,7 @@ app.get('/', (request, response) => {
   })
 
   app.post('/api/persons', (request, response) => {
+    console.log(request.body)
     if (!request.body.name || !request.body.number) {
         response.json("Must include name and number!")
         return
