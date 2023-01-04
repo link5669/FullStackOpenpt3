@@ -1,11 +1,13 @@
-var morgan = require('morgan')
+// var morgan = require('morgan')
 const express = require('express')
 var finalhandler = require('finalhandler')
 const app = express()
+const cors = require('cors')
+app.use(cors())
 app.use(express.json())
-morgan.token('body', function (req, res) { return JSON.stringify(req.body) })
-let logger = morgan(':method :url :status :res[content-length] :body - :response-time ms')
-app.use(logger)
+// morgan.token('body', function (req, res) { return JSON.stringify(req.body) })
+// let logger = morgan(':method :url :status :res[content-length] :body - :response-time ms')
+// app.use(logger)
 // morgan(':method :url :url :url :status :res[content-length] - :response-time ms')
 
 app.get('/', (request, response) => {
@@ -13,8 +15,7 @@ app.get('/', (request, response) => {
   })
 
   app.get('/info', (request, response) => {
-    var currTime = new Date()
-    response.send(`Phonebook has info for ${persons.length} people<br>${currTime}`)
+    response.send(`Phonebook has info for ${persons.length} people<br>${new Date()}`)
   })
 
   app.delete('/api/persons/:id', (request, response) => {
@@ -58,7 +59,7 @@ app.get('/', (request, response) => {
     }
   })
   
-  const PORT = 3001
+  const PORT =  process.env.PORT || 3001
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
   })
