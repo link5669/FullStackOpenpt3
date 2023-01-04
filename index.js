@@ -6,6 +6,11 @@ const app = express()
 app.get('/', (request, response) => {
     response.send('<h1>Hello World! Persons at <a href="/api/persons">this</a> link</h1>')
   })
+
+  app.get('/info', (request, response) => {
+    var currTime = new Date()
+    response.send(`Phonebook has info for ${persons.length} people<br>${currTime}`)
+  })
   
   app.get('/api/persons', (request, response) => {
     response.json(persons)
