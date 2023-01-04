@@ -2,6 +2,7 @@ var morgan = require('morgan')
 const express = require('express')
 morgan('tiny')
 const app = express()
+app.use(express.json())
 
 app.get('/', (request, response) => {
     response.send('<h1>Hello World! Persons at <a href="/api/persons">this</a> link</h1>')
@@ -23,6 +24,15 @@ app.get('/', (request, response) => {
   
   app.get('/api/persons', (request, response) => {
     response.json(persons)
+  })
+
+  app.post('/api/persons', (request, response) => {
+    let newPerson = {
+        name: request.body.name,
+        number: request.body.number,
+        id: Math.floor(Math.random() * 1000)
+    }
+    persons.push(newPerson)
   })
 
   app.get('/api/persons/:id', (request, response) => {
