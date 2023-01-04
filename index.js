@@ -27,6 +27,14 @@ app.get('/', (request, response) => {
   })
 
   app.post('/api/persons', (request, response) => {
+    if (!request.body.name || !request.body.number) {
+        response.json("Must include name and number!")
+        return
+    }
+    if (persons.filter(person => person.name == request.body.name).length > 0) {
+        response.json("Already in phonebook!")
+        return
+    }
     let newPerson = {
         name: request.body.name,
         number: request.body.number,
